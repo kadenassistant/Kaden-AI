@@ -39,24 +39,4 @@ def fetch_recent_emails(service, max_results=5):
         payload = msg_data.get('payload', {})
         headers = payload.get('headers', [])
         subject = next((h['value'] for h in headers if h['name'] == 'Subject'), '(No Subject)')
-        sender = next((h['value'] for h in headers if h['name'] == 'From'), '(Unknown Sender)')
-
-        parts = payload.get('parts', [])
-        body = ""
-        if parts:
-            for part in parts:
-                if part['mimeType'] == 'text/plain':
-                    body_data = part['body']['data']
-                    body += base64.urlsafe_b64decode(body_data.encode('ASCII')).decode('utf-8', errors='ignore')
-        else:
-            body_data = payload.get('body', {}).get('data')
-            if body_data:
-                body += base64.urlsafe_b64decode(body_data.encode('ASCII')).decode('utf-8', errors='ignore')
-
-        emails.append({
-            'subject': subject,
-            'from': sender,
-            'body': body
-        })
-
-    return emails
+        sender = next((h['value'] for h in headers if h['name']
