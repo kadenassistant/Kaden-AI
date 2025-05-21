@@ -11,12 +11,12 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 def authenticate_gmail(account_name):
     token_path = f'tokens/{account_name}.pickle'
-    
+
     creds = None
     if os.path.exists(token_path):
         with open(token_path, 'rb') as token:
             creds = pickle.load(token)
-    
+
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
